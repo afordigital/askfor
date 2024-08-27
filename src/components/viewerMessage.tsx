@@ -10,11 +10,11 @@ const UserMessage = ({
   message: string
   color: string
 }) => {
-  console.log(color)
-  const HSLColor = colord(color).toHsl()
-  console.log(HSLColor.l)
 
-  console.log(HSLColor)
+  const _color = colord(color);
+
+  const textColor = _color.isLight() ? _color.darken(0.25).toHex() : _color.lighten(0.25).toHex(); 
+
 
   return (
     <section className="bg-[#fafafa] flex justify-between text-start text-2xl w-full px-6 py-4 border-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-current rounded-2xl">
@@ -22,9 +22,9 @@ const UserMessage = ({
         <span
           style={{
             background: color,
-            color: HSLColor.l >= 25 ? 'white' : 'black'
+            color: textColor
           }}
-          className={` border-black text-lg rounded-[100px] border-2 px-2 w-fit`}
+          className='border-black text-lg rounded-[100px] border-2 px-2 w-fit'
         >
           {username}
         </span>
