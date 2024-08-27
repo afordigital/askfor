@@ -21,11 +21,11 @@ function App() {
   useEffect(() => {
     client.connect({ channels: ['afor_digital'] })
 
-    client.on('message', ({ username, message }) => {
-      console.log(`[${username}]: ${message}`)
-      if (!message.toLowerCase().startsWith('!pregunta')) return
+    client.on('message', ({ username, message, userInfo }) => {
+      console.log(userInfo)
+      if (!message.toLowerCase().startsWith('!p')) return
       if (message.length > 150) return
-      const slicedMessage = message.slice(10)
+      const slicedMessage = message.slice(2)
       questions.filter((question) => {
         question.message === slicedMessage
       })
@@ -62,7 +62,7 @@ function App() {
         }}
         clearAll={clearAll}
       />
-      <article className="flex flex-col my-20 h-full justify-center items-center gap-8">
+      <article className="flex flex-col my-10 h-full justify-center items-center gap-8">
         <h1 className="text-[100px]">ASKFOR</h1>
         <ActionButtons
           swipeMode={swipeMode}
@@ -70,7 +70,7 @@ function App() {
             setIsModalOpen(true)
           }}
         />
-        <div className="flex w-full px-4 flex-col gap-8">
+        <div className="flex w-full px-4 flex-col gap-6">
           {questions.map((question) => {
             return (
               <UserMessage
