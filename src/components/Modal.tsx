@@ -2,16 +2,15 @@ type ModalProps = { isOpen: boolean; close: () => void; clearAll: () => void }
 
 export const Modal = ({ isOpen, close, clearAll }: ModalProps) => {
   return (
-    isOpen && (
+    <>
+      {isOpen && <div className="fixed inset-0 bg-black/50"></div>}
       <dialog
-        id="customDialog"
-        className="fixed inset-0 flex justify-center items-center p-12 border-4 border-black"
+        open={isOpen}
+        className="fixed left-1/2 top-1/2 right-1/2 w-full max-w-lg -translate-x-1/2 -translate-y-1/2"
       >
-        <div className="bg-white flex flex-col gap-8 ">
-          <p className="text-2xl">
-            ¿Estás seguro/a de que quieres vaciar todas las preguntas?
-          </p>
-          <div className="flex justify-center gap-8">
+        <div className="bg-white p-12 border-4 border-black">
+          <p>¿Estás seguro/a de que quieres vaciar todas las preguntas?</p>
+          <div className="flex gap-8">
             <button
               style={{ boxShadow: '4px 4px 0 black' }}
               onClick={close}
@@ -32,6 +31,6 @@ export const Modal = ({ isOpen, close, clearAll }: ModalProps) => {
           </div>
         </div>
       </dialog>
-    )
+    </>
   )
 }
