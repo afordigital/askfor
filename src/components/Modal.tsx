@@ -8,9 +8,11 @@ export const Modal = ({ isOpen, close, clearAll }: ModalProps) => {
         open={isOpen}
         className="fixed left-1/2 top-1/2 right-1/2 w-full max-w-lg -translate-x-1/2 -translate-y-1/2"
       >
-        <div className="bg-white p-12 border-4 border-black">
-          <p>¿Estás seguro/a de que quieres vaciar todas las preguntas?</p>
-          <div className="flex gap-8">
+        <div className="bg-white p-12 flex flex-col gap-4 border-4 border-black">
+          <p className="text-2xl text-center">
+            ¿Estás seguro/a de que quieres vaciar todas las preguntas?
+          </p>
+          <div className="flex justify-center gap-8">
             <button
               style={{ boxShadow: '4px 4px 0 black' }}
               onClick={close}

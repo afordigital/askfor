@@ -6,8 +6,3 @@ body {
 h1 {
   font-family: 'Abril Fatface', system-ui;
 }
-
-dialog::backdrop {
-  backdrop-filter: blur(100px);
-  background: rgba(0, 0, 0, 0.5);
-}

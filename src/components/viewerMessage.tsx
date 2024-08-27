@@ -1,16 +1,31 @@
 import { Star, Trash } from 'lucide-react'
+import { colord } from 'colord'
 
 const UserMessage = ({
   username,
-  message
+  message,
+  color
 }: {
   username: string
   message: string
+  color: string
 }) => {
+  console.log(color)
+  const HSLColor = colord(color).toHsl()
+  console.log(HSLColor.l)
+
+  console.log(HSLColor)
+
   return (
     <section className="bg-[#fafafa] flex justify-between text-start text-2xl w-full px-6 py-4 border-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-current rounded-2xl">
       <div className="flex flex-col w-full max-w-full">
-        <span className="bg-[#befebe] border-black text-lg rounded-[100px] border-2 px-2 w-fit">
+        <span
+          style={{
+            background: color,
+            color: HSLColor.l >= 25 ? 'white' : 'black'
+          }}
+          className={` border-black text-lg rounded-[100px] border-2 px-2 w-fit`}
+        >
           {username}
         </span>
         <span className="break-all">{message}</span>

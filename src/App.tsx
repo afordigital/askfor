@@ -11,6 +11,7 @@ export type Question = {
   user: string
   message: string
   answered: boolean
+  userColor: string
 }
 
 function App() {
@@ -31,7 +32,12 @@ function App() {
       })
       setQuestions([
         ...questions,
-        { user: username, message: slicedMessage, answered: false }
+        {
+          user: username,
+          message: slicedMessage,
+          answered: false,
+          userColor: userInfo.color
+        }
       ])
     })
 
@@ -74,8 +80,10 @@ function App() {
           {questions.map((question) => {
             return (
               <UserMessage
+                key={crypto.randomUUID()}
                 username={question.user}
                 message={question.message}
+                color={question.userColor}
               />
             )
           })}
