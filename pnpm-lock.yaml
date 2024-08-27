@@ -5,9 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@fontsource-variable/outfit':
+    specifier: ^5.0.14
+    version: 5.0.14
+  '@fontsource/abril-fatface':
+    specifier: ^5.0.21
+    version: 5.0.21
   '@unocss/reset':
     specifier: ^0.56.5
     version: 0.56.5
+  lucide-react:
+    specifier: ^0.436.0
+    version: 0.436.0(react@18.2.0)
   mtmi:
     specifier: ^0.0.3
     version: 0.0.3
@@ -535,6 +544,14 @@ packages:
     resolution: {integrity: sha512-NCC3zz2+nvYd+Ckfh87rA47zfu2QsQpvc6k1yzTk+b9KzRj0wkGa8LSoGOXN6Zv4lRf/EIoZ80biDh9HOI+RNQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fontsource-variable/outfit@5.0.14:
+    resolution: {integrity: sha512-lAUC1ieCEer+EOi8s/UmWjaiwgGH6k8SMXHsN3BZ+G4GLy+8BRtcAgTHzM/mrl9kJKOPjsLKhM+T0MHArNAXeA==}
+    dev: false
+
+  /@fontsource/abril-fatface@5.0.21:
+    resolution: {integrity: sha512-60XV4tcEJwAsKIeVf6GcrvS3wYSSDfmzsuF2IEzfre/K6M/VcoQhZuajcf2IIQQKUV8hbXk0Go6gW1WhOonF1A==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.11:
     resolution: {integrity: sha512-N2brEuAadi0CcdeMXUkhbZB84eskAc8MEX1By6qEchoVywSgXPIjou4rYsl0V3Hj0ZnuGycGCjdNgockbzeWNA==}
@@ -1947,6 +1964,14 @@ packages:
     dependencies:
       yallist: 3.1.1
     dev: true
+
+  /lucide-react@0.436.0(react@18.2.0):
+    resolution: {integrity: sha512-N292bIxoqm1aObAg0MzFtvhYwgQE6qnIOWx/GLj5ONgcTPH6N0fD9bVq/GfdeC9ZORBXozt/XeEKDpiB3x3vlQ==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /magic-string@0.30.4:
     resolution: {integrity: sha512-Q/TKtsC5BPm0kGqgBIF9oXAs/xEf2vRKiIB4wCRQTJOQIByZ1d+NnUOotvJOvNpi5RNIgVOMC3pOuaP1ZTDlVg==}
