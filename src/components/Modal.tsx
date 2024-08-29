@@ -3,10 +3,10 @@ type ModalProps = { isOpen: boolean; close: () => void; clearAll: () => void }
 export const Modal = ({ isOpen, close, clearAll }: ModalProps) => {
   return (
     <>
-      {isOpen && <div className="fixed inset-0 bg-black/50"></div>}
+      {isOpen && <div className="fixed z-10 inset-0 bg-black/50"></div>}
       <dialog
         open={isOpen}
-        className="fixed left-1/2 top-1/2 right-1/2 w-full max-w-lg -translate-x-1/2 -translate-y-1/2"
+        className="fixed z-10 left-1/2 top-1/2 right-1/2 w-full max-w-lg -translate-x-1/2 -translate-y-1/2"
       >
         <div className="bg-white p-12 flex flex-col gap-4 border-4 border-black">
           <p className="text-2xl text-center">

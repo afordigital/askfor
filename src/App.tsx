@@ -6,36 +6,48 @@ import '@fontsource-variable/outfit'
 import { useEffect, useState } from 'react'
 import { ActionButtons } from './components/ActionButtons'
 import { Modal } from './components/Modal'
+import { Star } from './components/Star'
+import { QuestionsLayout } from './components/QuestionsLayout'
 
 export type Question = {
+  id: string
   user: string
   message: string
   answered: boolean
   userColor: string
+  favorite: boolean
 }
 
 function App() {
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [questions, setQuestions] = useState<Question[]>(() => {
+    const saved = localStorage.getItem('questionsStorage')
+    return saved !== null ? JSON.parse(saved) : []
+  })
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [mode, setMode] = useState<'DEFAULT' | 'ANSWERED'>('DEFAULT')
+
+  useEffect(() => {
+    localStorage.setItem('questionsStorage', JSON.stringify(questions))
+  }, [questions])
 
   useEffect(() => {
     client.connect({ channels: ['afor_digital'] })
 
     client.on('message', ({ username, message, userInfo }) => {
       if (!message.toLowerCase().startsWith('!p')) return
-      if (message.length > 150) return
+      if (message.length > 250) return
       const slicedMessage = message.slice(2)
-      /* questions.filter((question) => {
-        question.message === slicedMessage
-      }) */
+
       setQuestions((questions) => [
         ...questions,
         {
+          id: crypto.randomUUID(),
           user: username,
           message: slicedMessage,
           answered: false,
-          userColor: userInfo.color === 'currentColor' ? 'red' : userInfo.color
+          favorite: false,
+          userColor:
+            userInfo.color === 'currentColor' ? '#b8ff9e' : userInfo.color
         }
       ])
     })
@@ -54,6 +66,14 @@ function App() {
     setIsModalOpen(false)
   }
 
+  const markAsRead = (questionId: string) => {
+    setQuestions(
+      questions.map((question) =>
+        question.id === questionId ? { ...question, answered: true } : question
+      )
+    )
+  }
+
   return (
     <div className="relative max-w-4xl mx-auto gap-12 text-[#191919] w-screen max-h-screen">
       <Modal
@@ -64,25 +84,26 @@ function App() {
         clearAll={clearAll}
       />
       <article className="flex flex-col my-10 h-full justify-center items-center gap-8">
-        <h1 className="text-[100px]">ASKFOR</h1>
+        <div className="relative">
+          <h1 className="text-[100px] relative z-5">ASKFOR</h1>
+
+          <div className="flex gap-4 absolute top-8 -right-40 z-0 justify-center items-center">
+            <Star />
+            <img src="/star.png" alt="funny-star-image" />
+          </div>
+        </div>
         <ActionButtons
+          mode={mode}
           swipeMode={swipeMode}
           openModal={() => {
             setIsModalOpen(true)
           }}
         />
-        <div className="flex w-full px-4 flex-col gap-6">
-          {questions.map((question) => {
-            return (
-              <UserMessage
-                key={crypto.randomUUID()}
-                username={question.user}
-                message={question.message}
-                color={question.userColor}
-              />
-            )
-          })}
-        </div>
+        <QuestionsLayout
+          questions={questions}
+          mode={mode}
+          onQuestionClick={markAsRead}
+        />
       </article>
     </div>
   )
