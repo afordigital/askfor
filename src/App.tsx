@@ -23,28 +23,23 @@ function App() {
     client.connect({ channels: ['afor_digital'] })
 
     client.on('message', ({ username, message, userInfo }) => {
-      console.log(userInfo)
       if (!message.toLowerCase().startsWith('!p')) return
       if (message.length > 150) return
       const slicedMessage = message.slice(2)
-      questions.filter((question) => {
+      /* questions.filter((question) => {
         question.message === slicedMessage
-      })
-      setQuestions([
+      }) */
+      setQuestions((questions) => [
         ...questions,
         {
           user: username,
           message: slicedMessage,
           answered: false,
-          userColor: userInfo.color
+          userColor: userInfo.color === 'currentColor' ? 'red' : userInfo.color
         }
       ])
     })
-
-    return () => {
-      client.close('message')
-    }
-  }, [questions])
+  }, [])
 
   const swipeMode = () => {
     if (mode === 'DEFAULT') {
