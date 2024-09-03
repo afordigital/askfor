@@ -2,18 +2,17 @@ import { useState } from 'react'
 
 type ModalProps = {
   isOpen: boolean
-  channel: string
   close: () => void
   applyChannel: (newChanel: string) => void
 }
 
 export const NewchanelModal = ({
   isOpen,
-  channel,
+
   close,
   applyChannel
 }: ModalProps) => {
-  const [newChannel, setNewChannel] = useState(channel)
+  const [newChannel, setNewChannel] = useState('')
   return (
     <>
       {isOpen && <div className="fixed z-10 inset-0 bg-black/50"></div>}
@@ -24,11 +23,12 @@ export const NewchanelModal = ({
         <div className="bg-white p-12 flex flex-col gap-6 border-4 border-black">
           <label className="flex flex-col items-center gap-3">
             <p className="text-2xl text-center">
-              ¿Estás seguro/a de que quieres cambiar de canal?
+              Digite el nombre del nuevo canal
             </p>
             <input
               type="text"
               value={newChannel}
+              placeholder='Ejemplo: "afor_digital"'
               className="border-2 border-black px-4 py-2"
               onChange={(e) => setNewChannel(e.target.value)}
             />

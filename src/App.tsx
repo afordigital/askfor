@@ -137,7 +137,6 @@ function App() {
         />
       </div>
       <NewchanelModal
-        channel={channel}
         isOpen={newChannelModal}
         close={() => {
           setNewChannelModal(false)
