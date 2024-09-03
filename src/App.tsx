@@ -56,19 +56,29 @@ function App() {
 
         if (!slicedMessage) return
 
-        setQuestions((questions) => [
-          ...questions,
-          {
-            id: messageInfo.id,
-            user: username,
-            message: slicedMessage,
-            answered: false,
-            favourite: false,
-            likes: 0,
-            userColor:
-              userInfo.color === 'currentColor' ? '#b8ff9e' : userInfo.color
-          }
-        ])
+        setQuestions((questions) => {
+          const existingQuestion = questions.find(
+            (question) => question.id === messageInfo.id
+          )
+
+          return existingQuestion
+            ? questions
+            : [
+                ...questions,
+                {
+                  id: messageInfo.id,
+                  user: username,
+                  message: slicedMessage,
+                  answered: false,
+                  favourite: false,
+                  likes: 0,
+                  userColor:
+                    userInfo.color === 'currentColor'
+                      ? '#b8ff9e'
+                      : userInfo.color
+                }
+              ]
+        })
       }
     )
   }, [channel])
@@ -132,6 +142,7 @@ function App() {
         applyChannel={(newChannel: string) => {
           setChannel(newChannel)
           setNewChannelModal(false)
+          clearAll()
         }}
       />
 
