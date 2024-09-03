@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 export const Star = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
 
-  const handleMouseMove = (even) => {
+  const handleMouseMove = (event: MouseEvent) => {
     setCursorPosition({ x: event.clientX, y: event.clientY })
   }
 
@@ -16,7 +16,12 @@ export const Star = () => {
     }
   }, [])
 
-  const calculateRelativePosition = (rect) => {
+  interface CursorPosition {
+    x: number
+    y: number
+  }
+
+  const calculateRelativePosition = (rect: DOMRect): CursorPosition => {
     const x = cursorPosition.x - rect.left // Posición X relativa al span padre
     const y = cursorPosition.y - rect.top // Posición Y relativa al span padre
 
@@ -26,16 +31,20 @@ export const Star = () => {
 
     return { x: limitedX, y: limitedY }
   }
+
   return (
     <div className="absolute flex gap-2">
       <span
         className="w-[32px] h-[32px] relative rounded-full bg-black"
         ref={(element) => {
           if (element) {
-            const rect = element.getBoundingClientRect()
+            const spanElement = element as HTMLSpanElement
+            const rect = spanElement.getBoundingClientRect()
             const position = calculateRelativePosition(rect)
-            element.children[0].style.left = `${position.x}px`
-            element.children[0].style.top = `${position.y}px`
+
+            const firstChild = spanElement.children[0] as HTMLElement
+            firstChild.style.left = `${position.x}px`
+            firstChild.style.top = `${position.y}px`
           }
         }}
       >
@@ -51,10 +60,13 @@ export const Star = () => {
         className="w-[32px] h-[32px] relative rounded-full bg-black"
         ref={(element) => {
           if (element) {
-            const rect = element.getBoundingClientRect()
+            const spanElement = element as HTMLSpanElement
+            const rect = spanElement.getBoundingClientRect()
             const position = calculateRelativePosition(rect)
-            element.children[0].style.left = `${position.x}px`
-            element.children[0].style.top = `${position.y}px`
+
+            const firstChild = spanElement.children[0] as HTMLElement
+            firstChild.style.left = `${position.x}px`
+            firstChild.style.top = `${position.y}px`
           }
         }}
       >
