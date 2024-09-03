@@ -20,18 +20,13 @@ export const QuestionsLayout = ({
         .filter((question) => {
           return mode === 'DEFAULT' ? !question.answered : question.answered
         })
+        .sort((a, b) => b.likes - a.likes)
         .sort((a) => (a.favourite ? -1 : 1))
         .map((question) => {
           return (
             <UserMessage
               key={question.id}
               question={question}
-              // id={question.id}
-              // username={question.user}
-              // message={question.message}
-              // color={question.userColor}
-              // answered={question.answered}
-              // favourite={question.favourite}
               handleClick={onQuestionClick}
               handleFavourite={handleFavourite}
             />

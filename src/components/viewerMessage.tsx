@@ -3,22 +3,10 @@ import { colord } from 'colord'
 import { Question } from '../App'
 
 const UserMessage = ({
-  // id,
-  // username,
-  // message,
-  // color,
-  // answered,
-  // favourite,
   question,
   handleClick,
   handleFavourite
 }: {
-  // id: string
-  // username: string
-  // message: string
-  // color: string
-  // answered: boolean
-  // favourite: boolean
   question: Question
   handleClick: (questionId: string) => void
   handleFavourite: (questionId: string) => void
@@ -72,9 +60,11 @@ const UserMessage = ({
         </button>
         <span className="relative bg-[#FF8A8A] hover:bg-[#fe8282] h-[36px] w-[36px] transition-colors transition-duration-300 ease-in-out flex items-center justify-center p-1 border-2 border-black rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
           <Heart className={`${likes > 0 && 'fill-black'}`} />
-          <span className="absolute border-2 border-black -top-4 -right-3 bg-red-500 rounded-full w-[32px] text-center text-sm font-semibold">
-            {likes < 9 ? likes : '+9'}
-          </span>
+          {likes > 0 && (
+            <span className="absolute border-2 border-black -top-4 -right-3 bg-red-500 rounded-full w-[32px] text-center text-sm font-semibold">
+              {likes < 9 ? likes : '+9'}
+            </span>
+          )}
         </span>
         <button
           onClick={() => {
