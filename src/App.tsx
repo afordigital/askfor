@@ -126,6 +126,9 @@ function App() {
 
   return (
     <div className="relative max-w-4xl mx-auto gap-12 text-[#191919] w-screen max-h-screen">
+      <div className="fixed bottom-4 left-4">
+        <p className="text-[#dcf4ff]">{channel}</p>
+      </div>
       <div className="fixed bottom-4 right-4">
         <MoreVertical
           onClick={() => {
