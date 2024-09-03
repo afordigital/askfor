@@ -1,5 +1,4 @@
 import { client } from 'mtmi'
-import UserMessage from './components/viewerMessage'
 import '@fontsource/abril-fatface'
 import '@fontsource-variable/outfit'
 
@@ -36,7 +35,9 @@ function App() {
     client.on('message', ({ username, message, userInfo }) => {
       if (!message.toLowerCase().startsWith('!p')) return
       if (message.length > 250) return
-      const slicedMessage = message.slice(2)
+      const slicedMessage = message.slice(2).trim()
+
+      if (!slicedMessage) return
 
       setQuestions((questions) => [
         ...questions,

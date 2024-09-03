@@ -27,7 +27,7 @@ const UserMessage = ({
       onClick={() => {
         handleClick(id)
       }}
-      className="bg-[#fafafa] flex justify-between text-start text-2xl w-full px-6 py-4 border-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-current rounded-2xl"
+      className="animate-in fade-in-20 duration-500 slide-in-from-bottom-2 bg-[#fafafa] flex justify-between text-start text-2xl w-full px-6 py-4 border-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-current rounded-2xl"
     >
       <div className="flex flex-col w-full max-w-full">
         <span
@@ -46,10 +46,15 @@ const UserMessage = ({
         <span className="break-all">{message}</span>
       </div>
       <div className="flex gap-2 items-center">
-        <button className="bg-[#FBD26A] hover:bg-[#ffd364] transition-colors transition-duration-300 ease-in-out p-1 border-2 border-black rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+        <button
+          onClick={(event) => {
+            event.stopPropagation()
+          }}
+          className="pointer-events-none bg-[#FBD26A] hover:bg-[#ffd364] transition-colors transition-duration-300 ease-in-out p-1 border-2 border-black rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+        >
           <Star />
         </button>
-        <button className="bg-[#FF8A8A] hover:bg-[#fe8282] transition-colors transition-duration-300 ease-in-out p-1 border-2 border-black rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+        <button className="pointer-event-none bg-[#FF8A8A] hover:bg-[#fe8282] transition-colors transition-duration-300 ease-in-out p-1 border-2 border-black rounded-md shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
           <Trash />
         </button>
       </div>
