@@ -7,6 +7,8 @@ import { ActionButtons } from './components/ActionButtons'
 import { Modal } from './components/Modal'
 import { Star } from './components/Star'
 import { QuestionsLayout } from './components/QuestionsLayout'
+import { MoreVertical } from 'lucide-react'
+import { NewchanelModal } from './components/NewChannelModal'
 
 export type Question = {
   id: string
@@ -19,6 +21,8 @@ export type Question = {
 }
 
 function App() {
+  const [channel, setChannel] = useState('afor_digital')
+  const [newChannelModal, setNewChannelModal] = useState(false)
   const [questions, setQuestions] = useState<Question[]>(() => {
     const saved = localStorage.getItem('questionsStorage')
     return saved !== null ? JSON.parse(saved) : []
@@ -31,7 +35,7 @@ function App() {
   }, [questions])
 
   useEffect(() => {
-    client.connect({ channels: ['afor_digital'] })
+    client.connect({ channels: [channel] })
 
     client.on(
       'message',
@@ -67,7 +71,7 @@ function App() {
         ])
       }
     )
-  }, [])
+  }, [channel])
 
   const addLike = (parentId: string) => {
     setQuestions((questions) =>
@@ -112,6 +116,25 @@ function App() {
 
   return (
     <div className="relative max-w-4xl mx-auto gap-12 text-[#191919] w-screen max-h-screen">
+      <div className="fixed bottom-4 right-4">
+        <MoreVertical
+          onClick={() => {
+            setNewChannelModal(true)
+          }}
+        />
+      </div>
+      <NewchanelModal
+        channel={channel}
+        isOpen={newChannelModal}
+        close={() => {
+          setNewChannelModal(false)
+        }}
+        applyChannel={(newChannel: string) => {
+          setChannel(newChannel)
+          setNewChannelModal(false)
+        }}
+      />
+
       <Modal
         isOpen={isModalOpen}
         close={() => {
