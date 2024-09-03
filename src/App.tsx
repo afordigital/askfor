@@ -14,7 +14,8 @@ export type Question = {
   message: string
   answered: boolean
   userColor: string
-  favorite: boolean
+  favourite: boolean
+  likes: number
 }
 
 function App() {
@@ -32,27 +33,51 @@ function App() {
   useEffect(() => {
     client.connect({ channels: ['afor_digital'] })
 
-    client.on('message', ({ username, message, userInfo }) => {
-      if (!message.toLowerCase().startsWith('!p')) return
-      if (message.length > 250) return
-      const slicedMessage = message.slice(2).trim()
+    client.on(
+      'message',
+      ({ username, message, messageInfo, userInfo, replyInfo }) => {
+        if (message.length > 250) return
 
-      if (!slicedMessage) return
-
-      setQuestions((questions) => [
-        ...questions,
-        {
-          id: crypto.randomUUID(),
-          user: username,
-          message: slicedMessage,
-          answered: false,
-          favorite: false,
-          userColor:
-            userInfo.color === 'currentColor' ? '#b8ff9e' : userInfo.color
+        if (replyInfo) {
+          if (message.endsWith('+1')) {
+            //@ts-expect-error error x
+            addLike(replyInfo.parentMsgId)
+          }
+          return
         }
-      ])
-    })
+
+        if (!message.toLowerCase().startsWith('!p')) return
+
+        const slicedMessage = message.slice(2).trim()
+
+        if (!slicedMessage) return
+
+        setQuestions((questions) => [
+          ...questions,
+          {
+            id: messageInfo.id,
+            user: username,
+            message: slicedMessage,
+            answered: false,
+            favourite: false,
+            likes: 0,
+            userColor:
+              userInfo.color === 'currentColor' ? '#b8ff9e' : userInfo.color
+          }
+        ])
+      }
+    )
   }, [])
+
+  const addLike = (parentId: string) => {
+    setQuestions((questions) =>
+      questions.map((question) =>
+        question.id === parentId
+          ? { ...question, likes: question.likes + 1 }
+          : question
+      )
+    )
+  }
 
   const swipeMode = () => {
     if (mode === 'DEFAULT') {
@@ -71,6 +96,16 @@ function App() {
     setQuestions(
       questions.map((question) =>
         question.id === questionId ? { ...question, answered: true } : question
+      )
+    )
+  }
+
+  const handleFavourite = (questionId: string) => {
+    setQuestions(
+      questions.map((question) =>
+        question.id === questionId
+          ? { ...question, favourite: !question.favourite }
+          : question
       )
     )
   }
@@ -104,6 +139,7 @@ function App() {
           questions={questions}
           mode={mode}
           onQuestionClick={markAsRead}
+          handleFavourite={handleFavourite}
         />
       </article>
     </div>
