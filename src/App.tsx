@@ -7,6 +7,8 @@ import { ActionButtons } from './components/ActionButtons'
 import { Modal } from './components/Modal'
 import { Star } from './components/Star'
 import { QuestionsLayout } from './components/QuestionsLayout'
+import { MoreVertical } from 'lucide-react'
+import { NewchanelModal } from './components/NewChannelModal'
 
 export type Question = {
   id: string
@@ -19,6 +21,8 @@ export type Question = {
 }
 
 function App() {
+  const [channel, setChannel] = useState('afor_digital')
+  const [newChannelModal, setNewChannelModal] = useState(false)
   const [questions, setQuestions] = useState<Question[]>(() => {
     const saved = localStorage.getItem('questionsStorage')
     return saved !== null ? JSON.parse(saved) : []
@@ -31,7 +35,7 @@ function App() {
   }, [questions])
 
   useEffect(() => {
-    client.connect({ channels: ['afor_digital'] })
+    client.connect({ channels: [channel] })
 
     client.on(
       'message',
@@ -52,22 +56,32 @@ function App() {
 
         if (!slicedMessage) return
 
-        setQuestions((questions) => [
-          ...questions,
-          {
-            id: messageInfo.id,
-            user: username,
-            message: slicedMessage,
-            answered: false,
-            favourite: false,
-            likes: 0,
-            userColor:
-              userInfo.color === 'currentColor' ? '#b8ff9e' : userInfo.color
-          }
-        ])
+        setQuestions((questions) => {
+          const existingQuestion = questions.find(
+            (question) => question.id === messageInfo.id
+          )
+
+          return existingQuestion
+            ? questions
+            : [
+                ...questions,
+                {
+                  id: messageInfo.id,
+                  user: username,
+                  message: slicedMessage,
+                  answered: false,
+                  favourite: false,
+                  likes: 0,
+                  userColor:
+                    userInfo.color === 'currentColor'
+                      ? '#b8ff9e'
+                      : userInfo.color
+                }
+              ]
+        })
       }
     )
-  }, [])
+  }, [channel])
 
   const addLike = (parentId: string) => {
     setQuestions((questions) =>
@@ -112,6 +126,28 @@ function App() {
 
   return (
     <div className="relative max-w-4xl mx-auto gap-12 text-[#191919] w-screen max-h-screen">
+      <div className="fixed bottom-4 left-4">
+        <p className="text-[#dcf4ff]">{channel}</p>
+      </div>
+      <div className="fixed bottom-4 right-4">
+        <MoreVertical
+          onClick={() => {
+            setNewChannelModal(true)
+          }}
+        />
+      </div>
+      <NewchanelModal
+        isOpen={newChannelModal}
+        close={() => {
+          setNewChannelModal(false)
+        }}
+        applyChannel={(newChannel: string) => {
+          setChannel(newChannel)
+          setNewChannelModal(false)
+          clearAll()
+        }}
+      />
+
       <Modal
         isOpen={isModalOpen}
         close={() => {
