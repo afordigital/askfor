@@ -13,7 +13,7 @@ export const Home = () => {
   return (
     <div className="bg-white p-10 pb-7 flex flex-col gap-6 border-4 border-black mt-5">
       <label className="flex flex-col items-center gap-3">
-        <p className="text-2xl text-center">Digite el nombre del nuevo canal</p>
+        <p className="text-2xl text-center">Digite el nombre del canal</p>
         <input
           type="text"
           value={newChannel}
