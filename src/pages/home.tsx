@@ -10,8 +10,6 @@ export const Home = () => {
     .filter((key) => key.includes(LOCAL_STORAGE_KEY))
     .map((key) => key.replace(LOCAL_STORAGE_KEY + '-', ''))
 
-  console.log(channels)
-
   return (
     <div className="bg-white p-10 pb-7 flex flex-col gap-6 border-4 border-black mt-5">
       <label className="flex flex-col items-center gap-3">

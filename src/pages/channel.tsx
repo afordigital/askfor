@@ -145,6 +145,7 @@ export const Channel = () => {
       />
 
       <ActionButtons
+        questions={questions}
         mode={mode}
         swipeMode={swipeMode}
         openModal={() => {
