@@ -1,4 +1,4 @@
-import { Question } from '../App'
+import { Question } from '../chat-page'
 import UserMessage from './viewerMessage'
 
 type QuestionsLayoutProps = {

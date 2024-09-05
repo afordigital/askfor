@@ -9,6 +9,7 @@ import { Star } from './components/Star'
 import { QuestionsLayout } from './components/QuestionsLayout'
 import { MoreVertical } from 'lucide-react'
 import { NewchanelModal } from './components/NewChannelModal'
+import { useParams } from 'react-router-dom'
 
 export type Question = {
   id: string
@@ -20,8 +21,14 @@ export type Question = {
   likes: number
 }
 
-function App() {
-  const [channel, setChannel] = useState('afor_digital')
+function ChatPage() {
+
+  const { channel: channelParam } = useParams<{channel: string}>();
+
+
+  console.log(channelParam);
+
+  const [channel, setChannel] = useState(channelParam || 'afor_digital')
   const [newChannelModal, setNewChannelModal] = useState(false)
   const [questions, setQuestions] = useState<Question[]>(() => {
     const saved = localStorage.getItem('questionsStorage')
@@ -182,4 +189,4 @@ function App() {
   )
 }
 
-export default App
+export default ChatPage

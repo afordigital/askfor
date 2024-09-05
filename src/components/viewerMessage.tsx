@@ -1,6 +1,6 @@
 import { Check, Heart, Star } from 'lucide-react'
 import { colord } from 'colord'
-import { Question } from '../App'
+import { Question } from '../chat-page'
 
 const UserMessage = ({
   question,
