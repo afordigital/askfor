@@ -1,6 +1,6 @@
 import { Check, Heart, Star } from 'lucide-react'
 import { colord } from 'colord'
-import { Question } from '../Types'
+import { Question } from '../types'
 
 const UserMessage = ({
   question,
@@ -23,7 +23,6 @@ const UserMessage = ({
   } = question
   const _color = colord(color === 'currentColor' ? '#7affa6' : color)
 
-  console.log(badges)
   const textColor = _color.isLight()
     ? _color.darken(0.75).toHex()
     : _color.lighten(0.75).toHex()
