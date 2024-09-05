@@ -122,7 +122,7 @@ export const Channel = () => {
 
   return (
     <>
-      <div className="fixed top-4 left-4">
+      <div className="absolute top-4 left-4">
         <ChevronLeft
           color="black"
           size="32"
