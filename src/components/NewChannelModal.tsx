@@ -2,16 +2,11 @@ import { useState } from 'react'
 
 type ModalProps = {
   isOpen: boolean
-  close: () => void
+  close?: () => void
   applyChannel: (newChanel: string) => void
 }
 
-export const NewchanelModal = ({
-  isOpen,
-
-  close,
-  applyChannel
-}: ModalProps) => {
+export const NewchanelModal = ({ isOpen, close, applyChannel }: ModalProps) => {
   const [newChannel, setNewChannel] = useState('')
   return (
     <>
@@ -36,20 +31,23 @@ export const NewchanelModal = ({
           <div className="flex justify-center gap-8">
             <button
               style={{ boxShadow: '4px 4px 0 black' }}
+              onClick={close}
+              className="bg-[#fde194] transition-colors transition-duration-300 ease-in-out hover:bg-[#f7d986] px-8 font-semibold text-2xl py-2 border-black border-4"
+            >
+              Cancelar
+            </button>
+            <button
+              style={{ boxShadow: '4px 4px 0 black' }}
               onClick={() => {
-                close()
+                if (close) {
+                  close()
+                }
+
                 applyChannel(newChannel)
               }}
               className="bg-[#99EDC5] hover:bg-[#8edeb7] transition-colors transition-duration-300 ease-in-out px-8 font-semibold text-2xl py-2 border-black border-4"
             >
               Aplicar
-            </button>
-            <button
-              style={{ boxShadow: '4px 4px 0 black' }}
-              onClick={close}
-              className="bg-[#fde194] transition-colors transition-duration-300 ease-in-out hover:bg-[#f7d986] px-8 font-semibold text-2xl py-2 border-black border-4"
-            >
-              Cancelar
             </button>
           </div>
         </div>

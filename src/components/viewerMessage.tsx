@@ -1,6 +1,6 @@
 import { Check, Heart, Star } from 'lucide-react'
 import { colord } from 'colord'
-import { Question } from '../App'
+import { Question } from '../Types'
 
 const UserMessage = ({
   question,
@@ -18,10 +18,12 @@ const UserMessage = ({
     userColor: color,
     answered,
     favourite,
-    likes
+    likes,
+    badges
   } = question
   const _color = colord(color === 'currentColor' ? '#7affa6' : color)
 
+  console.log(badges)
   const textColor = _color.isLight()
     ? _color.darken(0.75).toHex()
     : _color.lighten(0.75).toHex()
@@ -42,8 +44,15 @@ const UserMessage = ({
               : color,
             color: textColor
           }}
-          className="border-black text-lg rounded-[100px] border-2 px-2 w-fit"
+          className="border-black flex items-center gap-2 text-lg rounded-[100px] border-2 px-2 w-fit"
         >
+          {badges.length > 0 && (
+            <span className="flex gap-1">
+              {badges.map((badge) => (
+                <img src={badge} alt={badge} width={20} height={20} />
+              ))}
+            </span>
+          )}
           {username}
         </span>
         <span className="break-all">{message}</span>

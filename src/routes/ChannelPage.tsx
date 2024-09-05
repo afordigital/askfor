@@ -1,45 +1,35 @@
 import { client } from 'mtmi'
-import '@fontsource/abril-fatface'
-import '@fontsource-variable/outfit'
-
 import { useEffect, useState } from 'react'
-import { ActionButtons } from './components/ActionButtons'
-import { Modal } from './components/Modal'
-import { Star } from './components/Star'
-import { QuestionsLayout } from './components/QuestionsLayout'
-import { MoreVertical } from 'lucide-react'
-import { NewchanelModal } from './components/NewChannelModal'
+import { Question } from '../Types'
+import { Modal } from '../components/Modal'
+import { ActionButtons } from '../components/ActionButtons'
+import { QuestionsLayout } from '../components/QuestionsLayout'
+import { redirect, useParams } from 'react-router-dom'
+import { Star } from '../components/Star'
 
-export type Question = {
-  id: string
-  user: string
-  message: string
-  answered: boolean
-  userColor: string
-  favourite: boolean
-  likes: number
-}
-
-function App() {
-  const [channel, setChannel] = useState('afor_digital')
-  const [newChannelModal, setNewChannelModal] = useState(false)
+export const ChannelPage = () => {
+  const { channelPage: channelName } = useParams()
+  const lsName = `questionsStorage-${channelName}`
   const [questions, setQuestions] = useState<Question[]>(() => {
-    const saved = localStorage.getItem('questionsStorage')
+    const saved = localStorage.getItem(lsName)
     return saved !== null ? JSON.parse(saved) : []
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [mode, setMode] = useState<'DEFAULT' | 'ANSWERED'>('DEFAULT')
+  // const [newChannelModal, setNewChannelModal] = useState(
+  //   channelName ? false : true
+  // )
 
   useEffect(() => {
-    localStorage.setItem('questionsStorage', JSON.stringify(questions))
-  }, [questions])
+    localStorage.setItem(lsName, JSON.stringify(questions))
+  }, [questions, lsName])
 
   useEffect(() => {
-    client.connect({ channels: [channel] })
+    client.connect({ channels: [channelName ?? ''] })
 
     client.on(
       'message',
-      ({ username, message, messageInfo, userInfo, replyInfo }) => {
+      ({ username, message, messageInfo, badges, userInfo, replyInfo }) => {
         if (message.length > 250) return
 
         if (replyInfo) {
@@ -49,6 +39,10 @@ function App() {
           }
           return
         }
+
+        const badgesImages = badges
+          .filter((badge) => badge.image)
+          .map((b) => b.image)
 
         if (!message.toLowerCase().startsWith('!p')) return
 
@@ -72,6 +66,7 @@ function App() {
                   answered: false,
                   favourite: false,
                   likes: 0,
+                  badges: badgesImages,
                   userColor:
                     userInfo.color === 'currentColor'
                       ? '#b8ff9e'
@@ -81,7 +76,7 @@ function App() {
         })
       }
     )
-  }, [channel])
+  }, [channelName])
 
   const addLike = (parentId: string) => {
     setQuestions((questions) =>
@@ -104,6 +99,7 @@ function App() {
   const clearAll = () => {
     setQuestions([])
     setIsModalOpen(false)
+    redirect(`/${channelName}`)
   }
 
   const markAsRead = (questionId: string) => {
@@ -127,26 +123,15 @@ function App() {
   return (
     <div className="relative max-w-4xl mx-auto gap-12 text-[#191919] w-screen max-h-screen">
       <div className="fixed bottom-4 left-4">
-        <p className="text-[#dcf4ff]">{channel}</p>
+        <p className="text-[#dcf4ff]">{channelName}</p>
       </div>
-      <div className="fixed bottom-4 right-4">
+      {/* <div className="fixed bottom-4 right-4">
         <MoreVertical
           onClick={() => {
             setNewChannelModal(true)
           }}
         />
-      </div>
-      <NewchanelModal
-        isOpen={newChannelModal}
-        close={() => {
-          setNewChannelModal(false)
-        }}
-        applyChannel={(newChannel: string) => {
-          setChannel(newChannel)
-          setNewChannelModal(false)
-          clearAll()
-        }}
-      />
+      </div> */}
 
       <Modal
         isOpen={isModalOpen}
@@ -155,7 +140,7 @@ function App() {
         }}
         clearAll={clearAll}
       />
-      <article className="flex flex-col my-10 h-full justify-center items-center gap-8">
+      <article className="flex pb-40 flex-col my-10 h-full justify-center items-center gap-8">
         <div className="relative">
           <h1 className="text-[100px] relative z-5">ASKFOR</h1>
 
@@ -182,4 +167,18 @@ function App() {
   )
 }
 
-export default App
+{
+  /* <NewchanelModal
+  isOpen={newChannelModal}
+  close={() => {
+    setNewChannelModal(false)
+  }}
+  applyChannel={(newChannel: string) => {
+    // setChannel(newChannel)
+    console.log(newChannel)
+    setNewChannelModal(false)
+    clearAll()
+    redirect(`/${newChannel}`)
+  }}
+/> */
+}

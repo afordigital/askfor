@@ -1,5 +1,6 @@
-import { Question } from '../App'
+import { Question } from '../Types'
 import UserMessage from './viewerMessage'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 type QuestionsLayoutProps = {
   questions: Question[]
@@ -14,8 +15,10 @@ export const QuestionsLayout = ({
   onQuestionClick,
   handleFavourite
 }: QuestionsLayoutProps) => {
+  const [parent] = useAutoAnimate(/* optional config */)
+
   return (
-    <div className="flex relative z-5 w-full px-4 flex-col gap-6">
+    <div ref={parent} className="flex flex-col relative z-5 w-full px-4 gap-6">
       {questions
         .filter((question) => {
           return mode === 'DEFAULT' ? !question.answered : question.answered
