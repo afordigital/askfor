@@ -1,4 +1,4 @@
-import { Question } from '../Types'
+import { Question } from '../types'
 import UserMessage from './viewerMessage'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
