@@ -74,7 +74,7 @@ export const Channel = () => {
     client.on(
       'message',
       ({ username, message, messageInfo, badges, userInfo, replyInfo }) => {
-        if (message.length > 250) return
+        if (message.length > 1000) return
 
         if (replyInfo) {
           if (message.endsWith('+1')) {
