@@ -54,7 +54,7 @@ const UserMessage = ({
           )}
           {username}
         </span>
-        <span>{message}</span>
+        <span className="break-words">{message}</span>
       </div>
       <div className="flex gap-4 items-center">
         <button
